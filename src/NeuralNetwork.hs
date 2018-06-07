@@ -16,8 +16,6 @@ Portability :   ghc
 
 module NeuralNetwork where
 
-import Numeric.LinearAlgebra as Hmatrix
-
 -- Specifies an activation function. Storing the specification this way makes it easy to define
 -- multiple different activation functions and attempt to find the most suitable function for the problem.
 -- The first derivative of the activation function is stored for convenience, as it is needed in backpropagation.
@@ -29,7 +27,7 @@ data ActivationSpec = ActivationSpec {
 
 -- A layer in the network consists of a matrix of weights and the activation specification.
 data Layer = Layer {
-                layerWeights :: Matrix Double,
+                layerWeights :: [[Double]],
                 layerAcSpec :: ActivationSpec
 }
 
@@ -39,14 +37,14 @@ data BackpropNet = BackpropNet {
 }
 
 -- When assembling a network, the outputs of a layer must match the inputs of the following layer.
-checkDimensions :: Matrix Double -> Matrix Double -> Matrix Double
-checkDimensions w1 w2 = case (rows w1 == cols w2) of
+checkDimensions :: [[Double]] -> [[Double]] -> [[Double]]
+checkDimensions w1 w2 = case ((1 + length w1) == (length (head w2))) of
                             True -> w2
                             otherwise -> error "Unmatching dimensions in weight matrix."
 
 -- Function which assembles a neural net for suitable for backpropagation.
 -- The function makes sure the dimensions between layers match.
-assembleBackpropNet :: Double -> [Matrix Double] -> ActivatinSpec -> BackpropNet
+assembleBackpropNet :: Double -> [[[Double]]] -> ActivationSpec -> BackpropNet
 assembleBackpropNet lrnRate weights aSpec = BackpropNet {layers = ls, learningRate = lrnRate}
     where   checkedWeights = scanl1 checkDimensions weights
             ls = map assembleLayer checkedWeights
@@ -56,13 +54,13 @@ assembleBackpropNet lrnRate weights aSpec = BackpropNet {layers = ls, learningRa
 -- For the first layer of the network no processing is performed, and the input is distributed as output without any changes.
 -- For the other layers the propagation process includes processing and data for every layer is stored.
 data PropagatedLayer    =  PropagatedSensorLayer {
-                                pOut :: Matrix Double -- Output from this layer.
+                                pOut :: [Double] -- Output from this layer.
 }
                         |   PropagatedLayer {
-                                pIn :: Matrix Double, -- Input to this layer.
-                                pOut :: Matrix Double, -- Output from this layer.
-                                pAcFunc' :: Matrix Double, -- Value of the first derivative of the activation function for this layer.
-                                pWeights :: Matrix Double, 
+                                pIn :: [Double], -- Input to this layer.
+                                pOut :: [Double], -- Output from this layer.
+                                pAcFunc' :: [Double], -- Value of the first derivative of the activation function for this layer.
+                                pWeights :: [[Double]], 
                                 pAcSpec :: ActivationSpec
 }
             
@@ -72,21 +70,21 @@ propagate prevLayer nextLayer = PropagatedLayer {
                             pIn = input,
                             pOut = output,
                             pAcFunc' = derivOut, 
-                            pWeifhts = ws,
+                            pWeights = ws,
                             pAcSpec = layerAcSpec nextLayer
                         }
     where   input = pOut prevLayer
             ws = layerWeights nextLayer
-            a = ws <> x -- <> performs matrix multiplication, as defined in the hmatrix package.
+            a = matMultip ws input 
             acFun = acFunc (layerAcSpec nextLayer)
-            output = mapMatrix acFun input 
+            output = map acFun input 
             acFun' = acFunc' (layerAcSpec nextLayer)
-            derivOut = mapMatrix acFun' input
+            derivOut = map acFun' input
 
--- Helpful function which applies a function to each element of a matrix.
-mapMatrix :: (Field a) => (a -> a) -> Matrix a -> Matrix a
-mapMatrix f m = (rs Hmatrix.>< cs) y 
-    where   x' = toList (flatten m)
-            y = map f x' 
-            rs = rows m 
-            cs = cols m
+-- Performs matrix multiplication. An inefficient function, but works for this purpose.
+matMultip :: [[Double]] -> [Double] -> [Double]
+matMultip ws ins = case (all (== len) lrs) of
+                        True -> map (\r -> sum $ zipWith (*) r ins) ws
+                        otherwise -> error "Unmatching dimensions when multiplaying matrices."
+        where   lrs = map length ws 
+                len = length ins
