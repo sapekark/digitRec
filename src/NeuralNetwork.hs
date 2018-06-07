@@ -8,7 +8,7 @@ Maintainer  :   sapekark@student.jyu.fi
 Stability   :   experimental
 Portability :   ghc
 
-                This module handles everything related to assembling a neural network on propagating through it.
+                This module handles everything related to assembling a neural network and propagating through it.
 
                 Guidance for the implementation of this module has been drawn from the tutorial "A Functional Approach to Neural Networks" (The Monad.Reader, Issue 21, 29.3.2013).
                 Link to the issue: https://themonadreader.files.wordpress.com/2013/03/issue214.pdf (Accessed: 5.6.2018)
@@ -40,7 +40,7 @@ data BackpropNet = BackpropNet {
 checkDimensions :: [[Double]] -> [[Double]] -> [[Double]]
 checkDimensions w1 w2 = case ((1 + length w1) == (length (head w2))) of
                             True -> w2
-                            otherwise -> error "Unmatching dimensions in weight matrix."
+                            _    -> error "Unmatching dimensions in weight matrix."
 
 -- Function which assembles a neural net for suitable for backpropagation.
 -- The function makes sure the dimensions between layers match.
@@ -77,14 +77,41 @@ propagate prevLayer nextLayer = PropagatedLayer {
             ws = layerWeights nextLayer
             a = matMultip ws input 
             acFun = acFunc (layerAcSpec nextLayer)
-            output = map acFun input 
+            output = map acFun a 
             acFun' = acFunc' (layerAcSpec nextLayer)
-            derivOut = map acFun' input
+            derivOut = map acFun' a
+
+-- This function (forward) propagates through the whole network.
+-- Takes the input ("sensor layer", and the rest of the network and return the propagated layers
+-- for the whole network.
+propagateNet :: [Double] -> BackpropNet -> [PropagatedLayer]
+propagateNet input network = tail calculations
+        where   calculations = scanl propagate sensorL (layers network)
+                sensorL = PropagatedSensorLayer {pOut = validated}
+                validated = validateInput network input 
+
+-- We want to make sure the the input is in a valid form.
+-- We make sure of two things:
+--      1.      The input has is of the correct length.
+--      2.      The elements are withing the range of [0,1]
+--              (MNIST-data is black and white, so we will be normalizing it to:
+--                0 == White, 1 == Black.)
+validateInput :: BackpropNet -> [Double] -> [Double]
+validateInput network = validateInputValues . validateInputDimensions 
+        where   validateInputValues input = case ((minimum input >= 0) && (maximum input <= 1)) of
+                                                        True    -> input 
+                                                        _       -> error "Input values outside of range [0,1]"
+                validateInputDimensions input = case (got == expected) of
+                                                        True    -> input
+                                                        _       -> error "The input isn't the correct length"
+                        where   got = length input
+                                expected = length $ head $ layerWeights $ head (layers network)
 
 -- Performs matrix multiplication. An inefficient function, but works for this purpose.
 matMultip :: [[Double]] -> [Double] -> [Double]
 matMultip ws ins = case (all (== len) lrs) of
-                        True -> map (\r -> sum $ zipWith (*) r ins) ws
-                        otherwise -> error "Unmatching dimensions when multiplaying matrices."
+                        True    -> map (\r -> sum $ zipWith (*) r ins) ws
+                        _       -> error "Unmatching dimensions when multiplaying matrices."
         where   lrs = map length ws 
                 len = length ins
+
