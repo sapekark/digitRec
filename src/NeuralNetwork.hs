@@ -59,7 +59,7 @@ data PropagatedLayer    =  PropagatedSensorLayer {
                         |   PropagatedLayer {
                                 pIn :: [Double], -- Input to this layer.
                                 pOut :: [Double], -- Output from this layer.
-                                pAcFunc' :: [Double], -- Value of the first derivative of the activation function for this layer.
+                                pFunc'Val :: [Double], -- Value of the first derivative of the activation function for this layer.
                                 pWeights :: [[Double]], 
                                 pAcSpec :: ActivationSpec
 }
@@ -69,13 +69,13 @@ propagate :: PropagatedLayer -> Layer -> PropagatedLayer
 propagate prevLayer nextLayer = PropagatedLayer {
                             pIn = input,
                             pOut = output,
-                            pAcFunc' = derivOut, 
+                            pFunc'Val = derivOut, 
                             pWeights = ws,
                             pAcSpec = layerAcSpec nextLayer
                         }
     where   input = pOut prevLayer
             ws = layerWeights nextLayer
-            a = matMultip ws input 
+            a = ws <**> input 
             acFun = acFunc (layerAcSpec nextLayer)
             output = map acFun a 
             acFun' = acFunc' (layerAcSpec nextLayer)
@@ -106,6 +106,10 @@ validateInput network = validateInputValues . validateInputDimensions
                                                         _       -> error "The input isn't the correct length"
                         where   got = length input
                                 expected = length $ head $ layerWeights $ head (layers network)
+
+-- Handy operator for the matrix multiplication function.
+(<**>) :: [[Double]] -> [Double] -> [Double]
+x <**> y = matMultip x y
 
 -- Performs matrix multiplication. An inefficient function, but works for this purpose.
 matMultip :: [[Double]] -> [Double] -> [Double]
