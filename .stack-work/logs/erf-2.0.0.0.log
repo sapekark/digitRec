@@ -1,0 +1,6 @@
+Configuring erf-2.0.0.0...
+Preprocessing library for erf-2.0.0.0..
+Building library for erf-2.0.0.0..
+[1 of 1] Compiling Data.Number.Erf  ( src\Data\Number\Erf.hs, .stack-work\dist\5c8418a7\build\Data\Number\Erf.o )
+Installing library in C:\sr\snapshots\b40ca3f8\lib\x86_64-windows-ghc-8.2.2\erf-2.0.0.0-FIyUTQ0buYn83lNwX85oAb
+Registering library for erf-2.0.0.0..

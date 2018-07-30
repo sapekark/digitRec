@@ -1,0 +1,11 @@
+Configuring mnist-idx-0.1.2.8...
+Warning: Packages using 'cabal-version: >= 1.10' must specify the
+'default-language' field for each component (e.g. Haskell98 or Haskell2010).
+If a component uses different languages in different modules then list the
+other ones in the 'other-languages' field.
+Preprocessing library for mnist-idx-0.1.2.8..
+Building library for mnist-idx-0.1.2.8..
+[1 of 2] Compiling Data.IDX.Internal ( src\Data\IDX\Internal.hs, .stack-work\dist\5c8418a7\build\Data\IDX\Internal.o )
+[2 of 2] Compiling Data.IDX         ( src\Data\IDX.hs, .stack-work\dist\5c8418a7\build\Data\IDX.o )
+Installing library in C:\sr\snapshots\b40ca3f8\lib\x86_64-windows-ghc-8.2.2\mnist-idx-0.1.2.8-EdjmOk1sDXy5kGSZNMX5H4
+Registering library for mnist-idx-0.1.2.8..

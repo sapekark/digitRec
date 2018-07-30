@@ -1,0 +1,15 @@
+Configuring mwc-random-0.13.6.0...
+Preprocessing library for mwc-random-0.13.6.0..
+Building library for mwc-random-0.13.6.0..
+[1 of 3] Compiling System.Random.MWC ( System\Random\MWC.hs, .stack-work\dist\5c8418a7\build\System\Random\MWC.o )
+
+[;1mSystem\Random\MWC.hs:124:1: [;1m[35mwarning:[0m[0m[;1m [[;1m[35m-Wunused-imports[0m[0m[;1m][0m[0m[;1m
+    The import of `IOMode, hGetBuf, withBinaryFile'
+    from module `System.IO' is redundant[0m[0m
+[;1m[34m    |[0m[0m
+[;1m[34m124 |[0m[0m [;1m[35mimport System.IO        (IOMode(..), hGetBuf, hPutStrLn, stderr, withBinaryFile)[0m[0m
+[;1m[34m    |[0m[0m[;1m[35m ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m[0m
+[0m[0m[0m[2 of 3] Compiling System.Random.MWC.CondensedTable ( System\Random\MWC\CondensedTable.hs, .stack-work\dist\5c8418a7\build\System\Random\MWC\CondensedTable.o )
+[3 of 3] Compiling System.Random.MWC.Distributions ( System\Random\MWC\Distributions.hs, .stack-work\dist\5c8418a7\build\System\Random\MWC\Distributions.o )
+Installing library in C:\sr\snapshots\b40ca3f8\lib\x86_64-windows-ghc-8.2.2\mwc-random-0.13.6.0-IfyGX7XNelg1itbQ1xeEOp
+Registering library for mwc-random-0.13.6.0..

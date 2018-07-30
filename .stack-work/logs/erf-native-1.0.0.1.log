@@ -1,0 +1,7 @@
+Configuring erf-native-1.0.0.1...
+Preprocessing library for erf-native-1.0.0.1..
+Building library for erf-native-1.0.0.1..
+[1 of 2] Compiling GSL.SpecFunc.Erf ( src\GSL\SpecFunc\Erf.hs, .stack-work\dist\5c8418a7\build\GSL\SpecFunc\Erf.o )
+[2 of 2] Compiling Data.Number.Erf  ( src\Data\Number\Erf.hs, .stack-work\dist\5c8418a7\build\Data\Number\Erf.o )
+Installing library in C:\dev\Projects\Haskell\digitRec\digitRec\.stack-work\install\69d820b8\lib\x86_64-windows-ghc-8.2.2\erf-native-1.0.0.1-9UtbemGeW66JpeQPe7qmQL
+Registering library for erf-native-1.0.0.1..

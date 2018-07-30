@@ -1,0 +1,7 @@
+Configuring data-reify-0.6.1...
+Preprocessing library for data-reify-0.6.1..
+Building library for data-reify-0.6.1..
+[1 of 2] Compiling Data.Reify.Graph ( Data\Reify\Graph.hs, .stack-work\dist\5c8418a7\build\Data\Reify\Graph.o )
+[2 of 2] Compiling Data.Reify       ( Data\Reify.hs, .stack-work\dist\5c8418a7\build\Data\Reify.o )
+Installing library in C:\sr\snapshots\b40ca3f8\lib\x86_64-windows-ghc-8.2.2\data-reify-0.6.1-JM4toYlopnAJpy0ZNuvXEz
+Registering library for data-reify-0.6.1..

@@ -1,0 +1,6 @@
+Configuring vector-th-unbox-0.2.1.6...
+Preprocessing library for vector-th-unbox-0.2.1.6..
+Building library for vector-th-unbox-0.2.1.6..
+[1 of 1] Compiling Data.Vector.Unboxed.Deriving ( Data\Vector\Unboxed\Deriving.hs, .stack-work\dist\5c8418a7\build\Data\Vector\Unboxed\Deriving.o )
+Installing library in C:\sr\snapshots\b40ca3f8\lib\x86_64-windows-ghc-8.2.2\vector-th-unbox-0.2.1.6-EkvhwY3l64Q29vAw3HIN07
+Registering library for vector-th-unbox-0.2.1.6..

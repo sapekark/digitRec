@@ -1,0 +1,10 @@
+[1 of 2] Compiling Main             ( C:\Users\Saku\AppData\Local\Temp\stack12504\log-domain-0.12\Setup.lhs, C:\Users\Saku\AppData\Local\Temp\stack12504\log-domain-0.12\.stack-work\dist\5c8418a7\setup\Main.o )
+[2 of 2] Compiling StackSetupShim   ( C:\sr\setup-exe-src\setup-shim-Z6RU0evB.hs, C:\Users\Saku\AppData\Local\Temp\stack12504\log-domain-0.12\.stack-work\dist\5c8418a7\setup\StackSetupShim.o )
+Linking C:\Users\Saku\AppData\Local\Temp\stack12504\log-domain-0.12\.stack-work\dist\5c8418a7\setup\setup.exe ...
+Configuring log-domain-0.12...
+Preprocessing library for log-domain-0.12..
+Building library for log-domain-0.12..
+[1 of 2] Compiling Numeric.Log      ( src\Numeric\Log.hs, .stack-work\dist\5c8418a7\build\Numeric\Log.o )
+[2 of 2] Compiling Numeric.Log.Signed ( src\Numeric\Log\Signed.hs, .stack-work\dist\5c8418a7\build\Numeric\Log\Signed.o )
+Installing library in C:\sr\snapshots\b40ca3f8\lib\x86_64-windows-ghc-8.2.2\log-domain-0.12-2KNijGsine19AcYhNJSkNy
+Registering library for log-domain-0.12..

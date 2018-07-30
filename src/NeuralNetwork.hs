@@ -6,7 +6,7 @@ License     :   MIT
 
 Maintainer  :   sapekark@student.jyu.fi
 Stability   :   experimental
-Portability :   ghc
+Portability :   non-portable
 
                 This module handles everything related to assembling a neural network and propagating through it.
 
@@ -18,10 +18,11 @@ module NeuralNetwork where
 
 -- Specifies an activation function. Storing the specification this way makes it easy to define
 -- multiple different activation functions and attempt to find the most suitable function for the problem.
--- The first derivative of the activation function is stored for convenience, as it is needed in backpropagation.
+-- Derivative is stored for the sake of convenience, as it is needed for backpropagation.
+-- However, it is not needed when using automated differentation, so it's commented out.
 data ActivationSpec = ActivationSpec {
                         acFunc :: Double -> Double, -- The activation function.
-                        acFunc' :: Double -> Double, -- First derivative of the activation function.
+                        -- acFunc' :: Double -> Double, -- First derivative of the activation function.
                         description :: String -- What kind of activation function is being used.
 }
 
@@ -31,7 +32,7 @@ data Layer = Layer {
                 layerAcSpec :: ActivationSpec
 }
 
-data BackpropNet = BackpropNet {
+data NeuralNet = NeuralNet {
                     layers :: [Layer],
                     learningRate :: Double -- Parameter which controls the rate at which the network learns new patterns.                   
 }
@@ -42,10 +43,10 @@ checkDimensions w1 w2 = case ((1 + length w1) == (length (head w2))) of
                             True -> w2
                             _    -> error "Unmatching dimensions in weight matrix."
 
--- Function which assembles a neural net for suitable for backpropagation.
+-- Function which assembles a neural net.
 -- The function makes sure the dimensions between layers match.
-assembleBackpropNet :: Double -> [[[Double]]] -> ActivationSpec -> BackpropNet
-assembleBackpropNet lrnRate weights aSpec = BackpropNet {layers = ls, learningRate = lrnRate}
+assembleNNet :: Double -> [[[Double]]] -> ActivationSpec -> NeuralNet
+assembleNNet lrnRate weights aSpec = NeuralNet {layers = ls, learningRate = lrnRate}
     where   checkedWeights = scanl1 checkDimensions weights
             ls = map assembleLayer checkedWeights
             assembleLayer ws = Layer {layerWeights = ws, layerAcSpec = aSpec}
@@ -53,38 +54,38 @@ assembleBackpropNet lrnRate weights aSpec = BackpropNet {layers = ls, learningRa
 -- There are two types of propagated layers.
 -- For the first layer of the network no processing is performed, and the input is distributed as output without any changes.
 -- For the other layers the propagation process includes processing and data for every layer is stored.
+-- Derivative is not needed when using automated differentation, so it's commented out.
 data PropagatedLayer    =  PropagatedSensorLayer {
                                 pOut :: [Double] -- Output from this layer.
 }
                         |   PropagatedLayer {
                                 pIn :: [Double], -- Input to this layer.
                                 pOut :: [Double], -- Output from this layer.
-                                pFunc'Val :: [Double], -- Value of the first derivative of the activation function for this layer.
+                                -- pFunc'Val :: [Double], -- Value of the first derivative of the activation function for this layer.
                                 pWeights :: [[Double]], 
                                 pAcSpec :: ActivationSpec
 }
             
 -- Functions which propagates through a single layer.
+-- We add 1 to the inputs of each layer to give bias.
 propagate :: PropagatedLayer -> Layer -> PropagatedLayer
 propagate prevLayer nextLayer = PropagatedLayer {
                             pIn = input,
                             pOut = output,
-                            pFunc'Val = derivOut, 
                             pWeights = ws,
                             pAcSpec = layerAcSpec nextLayer
                         }
     where   input = pOut prevLayer
             ws = layerWeights nextLayer
-            a = ws <**> input 
+            a = ws <**> (1:input)
             acFun = acFunc (layerAcSpec nextLayer)
             output = map acFun a 
-            acFun' = acFunc' (layerAcSpec nextLayer)
-            derivOut = map acFun' a
+
 
 -- This function (forward) propagates through the whole network.
 -- Takes the input ("sensor layer", and the rest of the network and return the propagated layers
 -- for the whole network.
-propagateNet :: [Double] -> BackpropNet -> [PropagatedLayer]
+propagateNet :: [Double] -> NeuralNet -> [PropagatedLayer]
 propagateNet input network = tail calculations
         where   calculations = scanl propagate sensorL (layers network)
                 sensorL = PropagatedSensorLayer {pOut = validated}
@@ -96,7 +97,7 @@ propagateNet input network = tail calculations
 --      2.      The elements are withing the range of [0,1]
 --              (MNIST-data is black and white, so we will be normalizing it to:
 --                0 == White, 1 == Black.)
-validateInput :: BackpropNet -> [Double] -> [Double]
+validateInput :: NeuralNet -> [Double] -> [Double]
 validateInput network = validateInputValues . validateInputDimensions 
         where   validateInputValues input = case ((minimum input >= 0) && (maximum input <= 1)) of
                                                         True    -> input 
@@ -119,3 +120,12 @@ matMultip ws ins = case (all (== len) lrs) of
         where   lrs = map length ws 
                 len = length ins
 
+-- Extracts the weights from a net and returns them as a list.
+extractWeights :: NeuralNet -> [[[Double]]]
+extractWeights net = map layerWeights $ layers net 
+
+-- Function which propagates through the neural net, providing the output
+-- created from the input.
+runNNet :: NeuralNet -> [Double] -> [Double]
+runNNet net input = pOut $ last calculations 
+        where   calculations = propagateNet input net
