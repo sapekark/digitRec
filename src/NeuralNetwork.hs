@@ -14,78 +14,84 @@ Portability :   non-portable
                 Link to the issue: https://themonadreader.files.wordpress.com/2013/03/issue214.pdf (Accessed: 5.6.2018)
 -}
 
+{-# LANGUAGE RankNTypes                #-}
+{-# LANGUAGE DeriveFunctor             #-}
+{-# LANGUAGE DeriveFoldable            #-}
+{-# LANGUAGE DeriveTraversable         #-}
+{-# LANGUAGE ScopedTypeVariables       #-}
+
+
 module NeuralNetwork where
+
+import Data.Traversable (Traversable)
+import Data.Foldable (Foldable)
 
 -- Specifies an activation function. Storing the specification this way makes it easy to define
 -- multiple different activation functions and attempt to find the most suitable function for the problem.
--- Derivative is stored for the sake of convenience, as it is needed for backpropagation.
--- However, it is not needed when using automated differentation, so it's commented out.
-data ActivationSpec = ActivationSpec {
-                        acFunc :: Double -> Double, -- The activation function.
-                        -- acFunc' :: Double -> Double, -- First derivative of the activation function.
-                        description :: String -- What kind of activation function is being used.
+newtype ActivationFunc = ActivationFunc {
+                acFunc :: forall a. Floating a => a -> a
 }
 
--- A layer in the network consists of a matrix of weights and the activation specification.
-data Layer = Layer {
-                layerWeights :: [[Double]],
-                layerAcSpec :: ActivationSpec
-}
+-- A layer in the network consists of a matrix of weights and the activation function.
+data Layer a = Layer {
+                layerWeights :: [[a]],
+                layerAcFunc :: ActivationFunc
+} deriving (Functor, Foldable, Traversable)
 
-data NeuralNet = NeuralNet {
-                    layers :: [Layer],
+data NeuralNet a = NeuralNet {
+                    layers :: [Layer a],
                     learningRate :: Double -- Parameter which controls the rate at which the network learns new patterns.                   
-}
+} deriving (Functor, Foldable, Traversable)
 
 -- When assembling a network, the outputs of a layer must match the inputs of the following layer.
-checkDimensions :: [[Double]] -> [[Double]] -> [[Double]]
+checkDimensions :: [[a]] -> [[a]] -> [[a]]
 checkDimensions w1 w2 = case ((1 + length w1) == (length (head w2))) of
                             True -> w2
                             _    -> error "Unmatching dimensions in weight matrix."
 
 -- Function which assembles a neural net.
 -- The function makes sure the dimensions between layers match.
-assembleNNet :: Double -> [[[Double]]] -> ActivationSpec -> NeuralNet
-assembleNNet lrnRate weights aSpec = NeuralNet {layers = ls, learningRate = lrnRate}
+assembleNNet :: Double -> [[[a]]] -> ActivationFunc -> NeuralNet a
+assembleNNet lrnRate weights aFunc = NeuralNet {layers = ls, learningRate = lrnRate}
     where   checkedWeights = scanl1 checkDimensions weights
             ls = map assembleLayer checkedWeights
-            assembleLayer ws = Layer {layerWeights = ws, layerAcSpec = aSpec}
+            assembleLayer ws = Layer {layerWeights = ws, layerAcFunc = aFunc}
 
 -- There are two types of propagated layers.
 -- For the first layer of the network no processing is performed, and the input is distributed as output without any changes.
 -- For the other layers the propagation process includes processing and data for every layer is stored.
 -- Derivative is not needed when using automated differentation, so it's commented out.
-data PropagatedLayer    =  PropagatedSensorLayer {
-                                pOut :: [Double] -- Output from this layer.
+data PropagatedLayer a   =  PropagatedSensorLayer {
+                                pOut :: [a] -- Output from this layer.
 }
                         |   PropagatedLayer {
-                                pIn :: [Double], -- Input to this layer.
-                                pOut :: [Double], -- Output from this layer.
+                                pIn :: [a], -- Input to this layer.
+                                pOut :: [a], -- Output from this layer.
                                 -- pFunc'Val :: [Double], -- Value of the first derivative of the activation function for this layer.
-                                pWeights :: [[Double]], 
-                                pAcSpec :: ActivationSpec
-}
+                                pWeights :: [[a]], 
+                                pAcFunc :: ActivationFunc
+} deriving (Functor, Foldable, Traversable)
             
 -- Functions which propagates through a single layer.
 -- We add 1 to the inputs of each layer to give bias.
-propagate :: PropagatedLayer -> Layer -> PropagatedLayer
+propagate :: (Floating a, Show a) => PropagatedLayer a -> Layer a -> PropagatedLayer a
 propagate prevLayer nextLayer = PropagatedLayer {
                             pIn = input,
                             pOut = output,
                             pWeights = ws,
-                            pAcSpec = layerAcSpec nextLayer
+                            pAcFunc = layerAcFunc nextLayer
                         }
     where   input = pOut prevLayer
             ws = layerWeights nextLayer
             a = ws <**> (1:input)
-            acFun = acFunc (layerAcSpec nextLayer)
+            acFun = acFunc (layerAcFunc nextLayer)
             output = map acFun a 
 
 
 -- This function (forward) propagates through the whole network.
 -- Takes the input ("sensor layer", and the rest of the network and return the propagated layers
 -- for the whole network.
-propagateNet :: [Double] -> NeuralNet -> [PropagatedLayer]
+propagateNet :: (Floating a, Ord a, Show a) => [a] -> NeuralNet a -> [PropagatedLayer a]
 propagateNet input network = tail calculations
         where   calculations = scanl propagate sensorL (layers network)
                 sensorL = PropagatedSensorLayer {pOut = validated}
@@ -97,7 +103,7 @@ propagateNet input network = tail calculations
 --      2.      The elements are withing the range of [0,1]
 --              (MNIST-data is black and white, so we will be normalizing it to:
 --                0 == White, 1 == Black.)
-validateInput :: NeuralNet -> [Double] -> [Double]
+validateInput :: (Floating a, Ord a, Show a) => NeuralNet a -> [a] -> [a]
 validateInput network = validateInputValues . validateInputDimensions 
         where   validateInputValues input = case ((minimum input >= 0) && (maximum input <= 1)) of
                                                         True    -> input 
@@ -106,26 +112,26 @@ validateInput network = validateInputValues . validateInputDimensions
                                                         True    -> input
                                                         _       -> error "The input isn't the correct length"
                         where   got = length input
-                                expected = length $ head $ layerWeights $ head (layers network)
+                                expected = (+(negate 1)) $ length $ head $ layerWeights $ head (layers network)
 
 -- Handy operator for the matrix multiplication function.
-(<**>) :: [[Double]] -> [Double] -> [Double]
+(<**>) :: Num a => [[a]] -> [a] -> [a]
 x <**> y = matMultip x y
 
 -- Performs matrix multiplication. An inefficient function, but works for this purpose.
-matMultip :: [[Double]] -> [Double] -> [Double]
+matMultip :: Num a => [[a]] -> [a] -> [a]
 matMultip ws ins = case (all (== len) lrs) of
                         True    -> map (\r -> sum $ zipWith (*) r ins) ws
-                        _       -> error "Unmatching dimensions when multiplaying matrices."
+                        _       -> error ("Unmatching dimensions when multiplaying matrices. lrs = " ++ (show (length (last ws))) ++ " and len = " ++ (show len))
         where   lrs = map length ws 
                 len = length ins
 
 -- Extracts the weights from a net and returns them as a list.
-extractWeights :: NeuralNet -> [[[Double]]]
+extractWeights :: NeuralNet a -> [[[a]]]
 extractWeights net = map layerWeights $ layers net 
 
 -- Function which propagates through the neural net, providing the output
 -- created from the input.
-runNNet :: NeuralNet -> [Double] -> [Double]
+runNNet :: (Floating a, Ord a, Show a) => NeuralNet a -> [a] -> [a]
 runNNet net input = pOut $ last calculations 
         where   calculations = propagateNet input net
