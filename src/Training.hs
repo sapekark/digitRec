@@ -1,7 +1,6 @@
-
 {- |
 Module      :   Training
-Description :   Training algorithm for the neural network. Uses automatic differentation.
+Description :   A backpropagation algoritm for a simple feed-forward neural network.
 Copyright   :   (c) Saku Kärkkäinen
 License     :   MIT
 
@@ -9,61 +8,60 @@ Maintainer  :   sapekark@student.jyu.fi
 Stability   :   experimental
 Portability :   non-portable
 
-                This module handles everything related to training a neural network using automatic differentation..
-                Training an network means determining new weights for the network, so that it provides a wanted output.
+                This module handles everything related to training the network through backpropagation.
 
-                Inspiration and guidance for the implementation of this module has been drawn from the article "Neural Networks and Automated Differentiation" (Dominic Steinitz, 31.5.2013).
-                Link to the article: https://idontgetoutmuch.wordpress.com/2013/05/31/neural-networks-and-automated-differentiation-3/ (Accessed: 11.6.2018)
+                Guidance and inspiration for the implementation of this module has been drawn from the tutorial "Get a brain".
+                Link to the tutorial: https://crypto.stanford.edu/~blynn/haskell/brain.html (Accessed: 4.8.2018)
 -}
-{-# LANGUAGE RankNTypes                #-}
-{-# LANGUAGE DeriveFunctor             #-}
-{-# LANGUAGE DeriveFoldable            #-}
-{-# LANGUAGE DeriveTraversable         #-}
-{-# LANGUAGE ScopedTypeVariables       #-}
-{-# LANGUAGE TupleSections             #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
-
-{-# OPTIONS_GHC -Wall                     #-}
-{-# OPTIONS_GHC -fno-warn-name-shadowing  #-}
-{-# OPTIONS_GHC -fno-warn-type-defaults   #-}
-{-# OPTIONS_GHC -fno-warn-unused-do-bind  #-}
-{-# OPTIONS_GHC -fno-warn-missing-methods #-}
 
 module Training where
 
-import Numeric.AD
-
 import NeuralNetwork
-import qualified Data.Vector as V
-
-
-delta :: Floating a => a 
-delta = 0.01
-
--- A cost functions for the neural network. Designed for cases when gradient descent is performed
--- over the whole training set.
-networkCost :: (Floating a, Ord a, Show a)  => Int -> V.Vector Int -> V.Vector [a] -> NeuralNet a -> a
-networkCost n expected inputs net = cost 
-    where   cost = (x + delta * y) / l 
-            l = fromIntegral $ V.length expected 
-            x = V.sum $ V.zipWith (\exp input -> costFN n exp input net) expected inputs
-            y = (/(2 * m)) $ sum $ map (^2) ws 
-            m = fromIntegral $ length ws 
-            ws = concat $ concat $ map stripBias $ extractWeights net 
-            stripBias xs = map (drop 1) xs
-
-costFN :: (Floating a, Ord a, Show a) => Int -> Int -> [a] -> NeuralNet a -> a 
-costFN n expected input net = 0.5 * sum (map (^2) diff)
-    where   diff = zipWith (-) ((targets n)!!expected) predicted
-            predicted = runNNet net input
-        
-targets :: Floating a => Int -> [[a]]
-targets n = map row [0 .. n - 1]
-    where row m = concat [x, 1.0 : y]
-            where (x,y) = splitAt m (take (n - 1) $ repeat 0.0)
-
--- By using the gradientDescent function (from the automatic differentation library),
--- this generates neural networks which fit the data.
-estimate :: (Floating a, Ord a, Show a) => V.Vector Int -> V.Vector [a] -> NeuralNet a -> [NeuralNet a]
-estimate labels inputs = gradientDescent $ 
-                            \theta -> networkCost 10 labels (V.map (map auto) inputs) theta
+    
+import Data.Functor
+import Data.List
+    
+learningRate = 0.0025
+    
+-- Function, which handles teaching the network through backpropagation.
+-- Takes the input of the network, the expected output, the network and the activation function.
+-- Returns the network, with its layer values modified by the training process.
+learn :: [Double] -> [Double] -> NeuralNet -> ActivationFunction -> NeuralNet
+learn input expected net ac = updatedLayers
+        where   updatedLayers   = zip newBias newWeights
+                newBias         = zipWith descend (fst <$> net) dlts
+                newWeights      = zipWith3 (\wvs a d1 -> zipWith (\wv d2 -> descend wv ((d2*) <$> a)) wvs d1) (snd <$> net) acs dlts
+                (acs, dlts)     = deltas input expected net ac
+                descend ac del  = zipWith (-) ac ((learningRate *) <$> del)
+    
+-- Function, which calculates the output error for the network.
+-- Takes the input, expected output, the network and the activation function.
+-- Returns a list of activations and deltas for each layer.
+deltas :: [Double] -> [Double] -> NeuralNet -> ActivationFunction -> ([[Double]], [[Double]])
+deltas input expected net acFun = (activations, deltas)
+        where   activations             = reverse acs
+                deltas                  = func (transpose . snd <$> reverse net) wis [dlt]
+                (acs@(ac:_), wi:wis)    = revAcsWis input acFun net
+                dlt                     = zipWith (*) (zipWith cost' ac expected) (af' <$> wi)
+                af'                     = acFunc' acFun   
+                func _ [] dlts          = dlts
+                func (wm:wms) (wi2:wis2) dlts@(del:_) = func wms wis2 $ (:dlts) $ zipWith (*) [(sum $ zipWith (*) row del) | row <- wm] (af' <$> wi)
+    
+-- Helper function, which calculates the weighted inputs and activations for every neuron.
+-- (The values before and after activation, when propagating through the net.)
+-- The values are needed for backpropagation. 
+-- Takes the input, the activation function and the network.
+-- Returns the (activationds, weighted inputs) for each layer.
+-- As backpropagation goes through the network backwards, the values are returned in reverse order.
+-- (As in, from the last layer to the first.)
+revAcsWis :: [Double] -> ActivationFunction -> NeuralNet -> ([[Double]], [[Double]])
+revAcsWis input ac net  = foldl' helper ([input], []) net 
+        where   helper  = (\(ins@(i:_), wis) (bs, ws) -> let 
+                            wi = computeLayer i (bs, ws) in (((af <$> wi):ins), (wi:wis)))
+                af      = acFunc ac
+     
+-- Function, which calculates derivate of the cost, calculated using the de.
+cost' :: Double -> Double -> Double 
+cost' x y 
+    | y == 1 && x >= y  = 0
+    | otherwise         = x - y    

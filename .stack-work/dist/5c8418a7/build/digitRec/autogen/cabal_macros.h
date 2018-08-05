@@ -22,60 +22,27 @@
   (major1) == 4 && (major2) == 10 && (minor) <= 1)
 #endif /* MIN_VERSION_base */
 
-/* package QuickCheck-2.10.1 */
-#ifndef VERSION_QuickCheck
-#define VERSION_QuickCheck "2.10.1"
-#endif /* VERSION_QuickCheck */
-#ifndef MIN_VERSION_QuickCheck
-#define MIN_VERSION_QuickCheck(major1,major2,minor) (\
-  (major1) <  2 || \
-  (major1) == 2 && (major2) <  10 || \
-  (major1) == 2 && (major2) == 10 && (minor) <= 1)
-#endif /* MIN_VERSION_QuickCheck */
+/* package random-1.1 */
+#ifndef VERSION_random
+#define VERSION_random "1.1"
+#endif /* VERSION_random */
+#ifndef MIN_VERSION_random
+#define MIN_VERSION_random(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  1 || \
+  (major1) == 1 && (major2) == 1 && (minor) <= 0)
+#endif /* MIN_VERSION_random */
 
-/* package mnist-idx-0.1.2.8 */
-#ifndef VERSION_mnist_idx
-#define VERSION_mnist_idx "0.1.2.8"
-#endif /* VERSION_mnist_idx */
-#ifndef MIN_VERSION_mnist_idx
-#define MIN_VERSION_mnist_idx(major1,major2,minor) (\
+/* package random-shuffle-0.0.4 */
+#ifndef VERSION_random_shuffle
+#define VERSION_random_shuffle "0.0.4"
+#endif /* VERSION_random_shuffle */
+#ifndef MIN_VERSION_random_shuffle
+#define MIN_VERSION_random_shuffle(major1,major2,minor) (\
   (major1) <  0 || \
-  (major1) == 0 && (major2) <  1 || \
-  (major1) == 0 && (major2) == 1 && (minor) <= 2)
-#endif /* MIN_VERSION_mnist_idx */
-
-/* package random-fu-0.2.7.0 */
-#ifndef VERSION_random_fu
-#define VERSION_random_fu "0.2.7.0"
-#endif /* VERSION_random_fu */
-#ifndef MIN_VERSION_random_fu
-#define MIN_VERSION_random_fu(major1,major2,minor) (\
-  (major1) <  0 || \
-  (major1) == 0 && (major2) <  2 || \
-  (major1) == 0 && (major2) == 2 && (minor) <= 7)
-#endif /* MIN_VERSION_random_fu */
-
-/* package rvar-0.2.0.3 */
-#ifndef VERSION_rvar
-#define VERSION_rvar "0.2.0.3"
-#endif /* VERSION_rvar */
-#ifndef MIN_VERSION_rvar
-#define MIN_VERSION_rvar(major1,major2,minor) (\
-  (major1) <  0 || \
-  (major1) == 0 && (major2) <  2 || \
-  (major1) == 0 && (major2) == 2 && (minor) <= 0)
-#endif /* MIN_VERSION_rvar */
-
-/* package ad-4.3.5 */
-#ifndef VERSION_ad
-#define VERSION_ad "4.3.5"
-#endif /* VERSION_ad */
-#ifndef MIN_VERSION_ad
-#define MIN_VERSION_ad(major1,major2,minor) (\
-  (major1) <  4 || \
-  (major1) == 4 && (major2) <  3 || \
-  (major1) == 4 && (major2) == 3 && (minor) <= 5)
-#endif /* MIN_VERSION_ad */
+  (major1) == 0 && (major2) <  0 || \
+  (major1) == 0 && (major2) == 0 && (minor) <= 4)
+#endif /* MIN_VERSION_random_shuffle */
 
 /* tool gcc-6.2.0 */
 #ifndef TOOL_VERSION_gcc
@@ -166,7 +133,7 @@
 #endif /* MIN_TOOL_VERSION_strip */
 
 #ifndef CURRENT_COMPONENT_ID
-#define CURRENT_COMPONENT_ID "digitRec-0.1.0.0-7h8JKC3KK9A649sshSmGdU-digitRec"
+#define CURRENT_COMPONENT_ID "digitRec-0.1.0.0-C6Ai6iIJnmIDHugNScujIi-digitRec"
 #endif /* CURRENT_COMPONENT_ID */
 #ifndef CURRENT_PACKAGE_VERSION
 #define CURRENT_PACKAGE_VERSION "0.1.0.0"
