@@ -6,7 +6,7 @@ License     :   MIT
 
 Maintainer  :   sapekark@student.jyu.fi
 Stability   :   experimental
-Portability :   non-portable
+Portability :   ghc
 
                 This module handles everything related to training the network through backpropagation.
 
@@ -21,17 +21,17 @@ import NeuralNetwork
 import Data.Functor
 import Data.List
     
-learningRate = 0.0025
+learningRate = 0.002
     
 -- Function, which handles teaching the network through backpropagation.
 -- Takes the input of the network, the expected output, the network and the activation function.
 -- Returns the network, with its layer values modified by the training process.
 learn :: [Double] -> [Double] -> NeuralNet -> ActivationFunction -> NeuralNet
-learn input expected net ac = updatedLayers
+learn input expected net af = updatedLayers
         where   updatedLayers   = zip newBias newWeights
                 newBias         = zipWith descend (fst <$> net) dlts
                 newWeights      = zipWith3 (\wvs a d1 -> zipWith (\wv d2 -> descend wv ((d2*) <$> a)) wvs d1) (snd <$> net) acs dlts
-                (acs, dlts)     = deltas input expected net ac
+                (acs, dlts)     = deltas input expected net af
                 descend ac del  = zipWith (-) ac ((learningRate *) <$> del)
     
 -- Function, which calculates the output error for the network.
@@ -45,7 +45,7 @@ deltas input expected net acFun = (activations, deltas)
                 dlt                     = zipWith (*) (zipWith cost' ac expected) (af' <$> wi)
                 af'                     = acFunc' acFun   
                 func _ [] dlts          = dlts
-                func (wm:wms) (wi2:wis2) dlts@(del:_) = func wms wis2 $ (:dlts) $ zipWith (*) [(sum $ zipWith (*) row del) | row <- wm] (af' <$> wi)
+                func (wm:wms) (wi2:wis2) dlts@(del:_) = func wms wis2 $ (:dlts) $ zipWith (*) [sum $ zipWith (*) row del | row <- wm] (af' <$> wi2)
     
 -- Helper function, which calculates the weighted inputs and activations for every neuron.
 -- (The values before and after activation, when propagating through the net.)

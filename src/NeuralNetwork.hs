@@ -6,7 +6,7 @@ License     :   MIT
 
 Maintainer  :   sapekark@student.jyu.fi
 Stability   :   experimental
-Portability :   non-portable
+Portability :   ghc
 
                 This module handles everything related to assembling a neural network and propagating through it.
 
