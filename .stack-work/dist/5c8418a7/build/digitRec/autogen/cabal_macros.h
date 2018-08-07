@@ -22,6 +22,17 @@
   (major1) == 4 && (major2) == 10 && (minor) <= 1)
 #endif /* MIN_VERSION_base */
 
+/* package bytestring-0.10.8.2 */
+#ifndef VERSION_bytestring
+#define VERSION_bytestring "0.10.8.2"
+#endif /* VERSION_bytestring */
+#ifndef MIN_VERSION_bytestring
+#define MIN_VERSION_bytestring(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  10 || \
+  (major1) == 0 && (major2) == 10 && (minor) <= 8)
+#endif /* MIN_VERSION_bytestring */
+
 /* package random-1.1 */
 #ifndef VERSION_random
 #define VERSION_random "1.1"
@@ -43,6 +54,17 @@
   (major1) == 0 && (major2) <  0 || \
   (major1) == 0 && (major2) == 0 && (minor) <= 4)
 #endif /* MIN_VERSION_random_shuffle */
+
+/* package scotty-0.11.1 */
+#ifndef VERSION_scotty
+#define VERSION_scotty "0.11.1"
+#endif /* VERSION_scotty */
+#ifndef MIN_VERSION_scotty
+#define MIN_VERSION_scotty(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  11 || \
+  (major1) == 0 && (major2) == 11 && (minor) <= 1)
+#endif /* MIN_VERSION_scotty */
 
 /* tool gcc-6.2.0 */
 #ifndef TOOL_VERSION_gcc
@@ -133,7 +155,7 @@
 #endif /* MIN_TOOL_VERSION_strip */
 
 #ifndef CURRENT_COMPONENT_ID
-#define CURRENT_COMPONENT_ID "digitRec-0.1.0.0-C6Ai6iIJnmIDHugNScujIi-digitRec"
+#define CURRENT_COMPONENT_ID "digitRec-0.1.0.0-F1EHZ7nK2E8BmDXJLjiN4K-digitRec"
 #endif /* CURRENT_COMPONENT_ID */
 #ifndef CURRENT_PACKAGE_VERSION
 #define CURRENT_PACKAGE_VERSION "0.1.0.0"
