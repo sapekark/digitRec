@@ -1,0 +1,352 @@
+
+==================== FINAL INTERFACE ====================
+2018-08-08 14:24:56.7047544 UTC
+
+interface main:MNIST 8022
+  interface hash: 7f0ee923617bb2c8cabfc703d70c86d3
+  ABI hash: 619aad6b07b02516c76be59d605d4a12
+  export-list hash: bf5e2abd363e4428288b563977b1951c
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: 301d5f8d0df098dd5e9c7328943f9dbc
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  MNIST.getDigit
+  MNIST.getDigits
+  MNIST.getLabel
+  MNIST.getLabelTesting
+  MNIST.getLabels
+  MNIST.getLabelsTesting
+  MNIST.replaceAtIndex
+module dependencies:
+package dependencies: array-0.5.2.0 base-4.10.1.0*
+                      bytestring-0.10.8.2* deepseq-1.4.3.0 ghc-prim-0.5.1.1
+                      integer-gmp-1.0.1.0
+orphans: base-4.10.1.0:GHC.Float base-4.10.1.0:GHC.Base
+family instance modules: base-4.10.1.0:Control.Applicative
+                         base-4.10.1.0:Data.Complex base-4.10.1.0:Data.Either
+                         base-4.10.1.0:Data.Functor.Compose base-4.10.1.0:Data.Functor.Const
+                         base-4.10.1.0:Data.Functor.Identity
+                         base-4.10.1.0:Data.Functor.Product base-4.10.1.0:Data.Functor.Sum
+                         base-4.10.1.0:Data.List.NonEmpty base-4.10.1.0:Data.Monoid
+                         base-4.10.1.0:Data.Semigroup base-4.10.1.0:Data.Type.Equality
+                         base-4.10.1.0:Data.Version base-4.10.1.0:Data.Void
+                         base-4.10.1.0:GHC.Exts base-4.10.1.0:GHC.Generics
+                         base-4.10.1.0:GHC.IO.Exception base-4.10.1.0:GHC.TypeLits
+                         base-4.10.1.0:GHC.TypeNats
+import  -/  base-4.10.1.0:Data.Functor b59a97e639e05373a94999f9bb899676
+import  -/  base-4.10.1.0:GHC.Base 8f949d675e49677c272f02ab7a85fe18
+import  -/  base-4.10.1.0:GHC.List 1bb0adf79553530dc898796596e53188
+import  -/  base-4.10.1.0:GHC.Num bee60808f8127e4cda82dd422aa1c6c0
+import  -/  base-4.10.1.0:GHC.Real 183566a07f0c201dd54a6bc28c33ed14
+import  -/  base-4.10.1.0:Prelude a93a9400cc0c816c2ee5f39399baa7a0
+import  -/  bytestring-0.10.8.2:Data.ByteString.Lazy 797320bfb8012e1e94591960fb41f1fe
+import  -/  bytestring-0.10.8.2:Data.ByteString.Lazy.Internal 6cd1c58d0d8a428f77ff6a327f850cad
+import  -/  ghc-prim-0.5.1.1:GHC.Classes 64ad5910d03ab188ab9b4adef7487b1e
+06774dc99ef02518cbe38079b02a4106
+  $trModule :: GHC.Types.Module
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.Module MNIST.$trModule3 MNIST.$trModule1) -}
+ec165676a467172eca9c51431b8427a5
+  $trModule1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS MNIST.$trModule2) -}
+5889f98ed1cca4638952c5db9f9bb163
+  $trModule2 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("MNIST"#) -}
+e49e12a1fcc3e293bbf7ddefd04c94c3
+  $trModule3 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS MNIST.$trModule4) -}
+0488fe21390e4deaa9ccfdce282e9645
+  $trModule4 :: GHC.Prim.Addr#
+  {- HasNoCafRefs, Unfolding: ("main"#) -}
+7892fa7e87c9ef54339397c8dfc2e356
+  $wgetDigits ::
+    Data.ByteString.Lazy.Internal.ByteString
+    -> GHC.Prim.Int# -> [[GHC.Types.Double]]
+  {- Arity: 2, Strictness: <L,U><S,U>, Inline: [0],
+     Unfolding: (\ (w :: Data.ByteString.Lazy.Internal.ByteString)
+                   (ww :: GHC.Prim.Int#) ->
+                 letrec {
+                   $whelper :: GHC.Prim.Int#
+                               -> [[GHC.Types.Double]] -> [[GHC.Types.Double]]
+                     <join 2> {- Arity: 2, Strictness: <S,U><L,U>, Inline: [0] -}
+                   = \ (ww1 :: GHC.Prim.Int#) (w1 :: [[GHC.Types.Double]]) ->
+                     case GHC.Prim.tagToEnum#
+                            @ GHC.Types.Bool
+                            (GHC.Prim.>=# ww1 0#) of wild {
+                       GHC.Types.False -> w1
+                       GHC.Types.True
+                       -> $whelper
+                            (GHC.Prim.-# ww1 1#)
+                            (GHC.Types.:
+                               @ [GHC.Types.Double]
+                               (MNIST.getDigit w (GHC.Types.I# ww1))
+                               w1) }
+                 } in
+                 $whelper ww (GHC.Types.[] @ [GHC.Types.Double])) -}
+1929d8a5747bf34c4b6743e960e60d5d
+  $wgetLabel ::
+    Data.ByteString.Lazy.Internal.ByteString
+    -> GHC.Prim.Int# -> [GHC.Types.Double]
+  {- Arity: 2, Strictness: <S,1*U><S,U>, Inline: [0],
+     Unfolding: (\ (w :: Data.ByteString.Lazy.Internal.ByteString)
+                   (ww :: GHC.Prim.Int#) ->
+                 let {
+                   ww1 :: GHC.Prim.Int# = GHC.Prim.+# ww 8#
+                 } in
+                 case GHC.Prim.tagToEnum#
+                        @ GHC.Types.Bool
+                        (GHC.Prim.<# ww1 0#) of wild {
+                   GHC.Types.False
+                   -> case Data.ByteString.Lazy.$windex' w ww1 of ww2 { DEFAULT ->
+                      MNIST.$wreplaceAtIndex
+                        @ GHC.Types.Double
+                        (GHC.Prim.word2Int# ww2)
+                        MNIST.getLabel2
+                        MNIST.getLabel1 }
+                   GHC.Types.True
+                   -> case Data.ByteString.Lazy.index1 ww1
+                      ret_ty [GHC.Types.Double]
+                      of {} }) -}
+484a8595e50f89fa2b7daa514ab571b5
+  $wgetLabels ::
+    Data.ByteString.Lazy.Internal.ByteString
+    -> GHC.Prim.Int# -> [[GHC.Types.Double]]
+  {- Arity: 2, Strictness: <L,U><S,U>, Inline: [0],
+     Unfolding: (\ (w :: Data.ByteString.Lazy.Internal.ByteString)
+                   (ww :: GHC.Prim.Int#) ->
+                 letrec {
+                   $whelper :: GHC.Prim.Int#
+                               -> [[GHC.Types.Double]] -> [[GHC.Types.Double]]
+                     <join 2> {- Arity: 2, Strictness: <S,U><L,U>, Inline: [0] -}
+                   = \ (ww1 :: GHC.Prim.Int#) (w1 :: [[GHC.Types.Double]]) ->
+                     case GHC.Prim.tagToEnum#
+                            @ GHC.Types.Bool
+                            (GHC.Prim.>=# ww1 0#) of wild {
+                       GHC.Types.False -> w1
+                       GHC.Types.True
+                       -> $whelper
+                            (GHC.Prim.-# ww1 1#)
+                            (GHC.Types.:
+                               @ [GHC.Types.Double]
+                               (let {
+                                  ww2 :: GHC.Prim.Int# = GHC.Prim.+# ww1 8#
+                                } in
+                                case GHC.Prim.tagToEnum#
+                                       @ GHC.Types.Bool
+                                       (GHC.Prim.<# ww2 0#) of wild1 {
+                                  GHC.Types.False
+                                  -> case Data.ByteString.Lazy.$windex' w ww2 of ww3 { DEFAULT ->
+                                     MNIST.$wreplaceAtIndex
+                                       @ GHC.Types.Double
+                                       (GHC.Prim.word2Int# ww3)
+                                       MNIST.getLabel2
+                                       MNIST.getLabel1 }
+                                  GHC.Types.True
+                                  -> case Data.ByteString.Lazy.index1 ww2
+                                     ret_ty [GHC.Types.Double]
+                                     of {} })
+                               w1) }
+                 } in
+                 $whelper ww (GHC.Types.[] @ [GHC.Types.Double])) -}
+0f5ddc25f9cda12b2b80a14dbc39edbf
+  $wgetLabelsTesting ::
+    Data.ByteString.Lazy.Internal.ByteString
+    -> GHC.Prim.Int# -> [GHC.Types.Int]
+  {- Arity: 2, Strictness: <L,U><S,U>, Inline: [0],
+     Unfolding: (\ (w :: Data.ByteString.Lazy.Internal.ByteString)
+                   (ww :: GHC.Prim.Int#) ->
+                 letrec {
+                   $whelper :: GHC.Prim.Int# -> [GHC.Types.Int] -> [GHC.Types.Int]
+                     <join 2> {- Arity: 2, Strictness: <S,U><L,U>, Inline: [0] -}
+                   = \ (ww1 :: GHC.Prim.Int#) (w1 :: [GHC.Types.Int]) ->
+                     case GHC.Prim.tagToEnum#
+                            @ GHC.Types.Bool
+                            (GHC.Prim.>=# ww1 0#) of wild {
+                       GHC.Types.False -> w1
+                       GHC.Types.True
+                       -> $whelper
+                            (GHC.Prim.-# ww1 1#)
+                            (GHC.Types.:
+                               @ GHC.Types.Int
+                               (let {
+                                  ww2 :: GHC.Prim.Int# = GHC.Prim.+# ww1 8#
+                                } in
+                                case GHC.Prim.tagToEnum#
+                                       @ GHC.Types.Bool
+                                       (GHC.Prim.<# ww2 0#) of wild1 {
+                                  GHC.Types.False
+                                  -> case Data.ByteString.Lazy.$windex' w ww2 of ww3 { DEFAULT ->
+                                     GHC.Types.I# (GHC.Prim.word2Int# ww3) }
+                                  GHC.Types.True
+                                  -> case Data.ByteString.Lazy.index1 ww2
+                                     ret_ty GHC.Types.Int
+                                     of {} })
+                               w1) }
+                 } in
+                 $whelper ww (GHC.Types.[] @ GHC.Types.Int)) -}
+1f892a477ebd92874b549d56f1e83187
+  $wreplaceAtIndex :: GHC.Prim.Int# -> a -> [a] -> [a]
+  {- Arity: 3, Strictness: <S,U><L,U><S,1*U>, Inline: [0],
+     Unfolding: (\ @ a (ww :: GHC.Prim.Int#) (w :: a) (w1 :: [a]) ->
+                 case GHC.Prim.tagToEnum#
+                        @ GHC.Types.Bool
+                        (GHC.Prim.<=# ww 0#) of wild1 {
+                   GHC.Types.False
+                   -> case w1 of wild {
+                        [] -> case MNIST.getLabel3 ret_ty [a] of {}
+                        : ipv ipv1
+                        -> case ww of ds1 {
+                             DEFAULT
+                             -> case GHC.List.splitAt_$s$wsplitAt'
+                                       @ a
+                                       ipv1
+                                       (GHC.Prim.-# ds1 1#) of ww1 { (#,#) ww2 ww3 ->
+                                case ww3 of wild2 {
+                                  [] -> case MNIST.getLabel3 ret_ty [a] of {}
+                                  : ds zs
+                                  -> GHC.Base.++
+                                       @ a
+                                       (GHC.Types.: @ a ipv ww2)
+                                       (GHC.Types.: @ a w zs) } }
+                             1#
+                             -> case ipv1 of wild2 {
+                                  [] -> case MNIST.getLabel3 ret_ty [a] of {}
+                                  : ds zs
+                                  -> GHC.Base.++
+                                       @ a
+                                       (GHC.Types.: @ a ipv (GHC.Types.[] @ a))
+                                       (GHC.Types.: @ a w zs) } } }
+                   GHC.Types.True
+                   -> case w1 of wild {
+                        [] -> case MNIST.getLabel3 ret_ty [a] of {}
+                        : ds zs
+                        -> GHC.Base.++
+                             @ a
+                             (GHC.Types.[] @ a)
+                             (GHC.Types.: @ a w zs) } }) -}
+424926d06a39b17b465ee8f421f5d698
+  $wxs :: GHC.Prim.Int# -> (# GHC.Types.Double, [GHC.Types.Double] #)
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>, Inline: [0] -}
+566b2ece884ec9a4a8e6a1d1fe2b5a13
+  getDigit ::
+    Data.ByteString.Lazy.Internal.ByteString
+    -> GHC.Types.Int -> [GHC.Types.Double]
+  {- Arity: 2, Strictness: <L,U><L,1*U(U)>,
+     Unfolding: (\ (s :: Data.ByteString.Lazy.Internal.ByteString)
+                   (n :: GHC.Types.Int) ->
+                 GHC.Base.map
+                   @ GHC.Int.Int64
+                   @ GHC.Types.Double
+                   (let {
+                      ds :: GHC.Int.Int64
+                      = case n of wild { GHC.Types.I# x# ->
+                        GHC.Int.I64# (GHC.Prim.+# (GHC.Prim.*# x# 784#) 16#) }
+                    } in
+                    \ (x1 :: GHC.Int.Int64) ->
+                    case ds of wild { GHC.Int.I64# x# ->
+                    case x1 of wild1 { GHC.Int.I64# y# ->
+                    let {
+                      ww1 :: GHC.Prim.Int# = GHC.Prim.+# x# y#
+                    } in
+                    case GHC.Prim.tagToEnum#
+                           @ GHC.Types.Bool
+                           (GHC.Prim.<# ww1 0#) of wild2 {
+                      GHC.Types.False
+                      -> case Data.ByteString.Lazy.$windex' s ww1 of ww2 { DEFAULT ->
+                         GHC.Types.D# (GHC.Prim./## (GHC.Prim.word2Double# ww2) 255.0##) }
+                      GHC.Types.True
+                      -> case Data.ByteString.Lazy.index1 ww1
+                         ret_ty GHC.Types.Double
+                         of {} } } })
+                   MNIST.getDigit1) -}
+27a88ca142886b1b545bda86b016b56f
+  getDigit1 :: [GHC.Int.Int64]
+  {- Unfolding: (GHC.Int.$w$cenumFromTo2 0# 783#) -}
+abd426317e32cc43cf206eb020a903c9
+  getDigits ::
+    Data.ByteString.Lazy.Internal.ByteString
+    -> GHC.Types.Int -> [[GHC.Types.Double]]
+  {- Arity: 2, Strictness: <L,U><S(S),1*U(U)>, Inline: [0],
+     Unfolding: InlineRule (2, True, False)
+                (\ (w :: Data.ByteString.Lazy.Internal.ByteString)
+                   (w1 :: GHC.Types.Int) ->
+                 case w1 of ww { GHC.Types.I# ww1 -> MNIST.$wgetDigits w ww1 }) -}
+552a292bc2cb7ded6ec3c72a8d023a34
+  getLabel ::
+    Data.ByteString.Lazy.Internal.ByteString
+    -> GHC.Types.Int -> [GHC.Types.Double]
+  {- Arity: 2, Strictness: <S,1*U><S(S),1*U(U)>, Inline: [0],
+     Unfolding: InlineRule (2, True, False)
+                (\ (w :: Data.ByteString.Lazy.Internal.ByteString)
+                   (w1 :: GHC.Types.Int) ->
+                 case w1 of ww { GHC.Types.I# ww1 -> MNIST.$wgetLabel w ww1 }) -}
+3f7d2856f0db4da9d8d7127dcbbb7891
+  getLabel1 :: [GHC.Types.Double]
+  {- Unfolding: (case MNIST.$wxs 10# of ww { (#,#) ww1 ww2 ->
+                 GHC.Types.: @ GHC.Types.Double ww1 ww2 }) -}
+10c77863e6db363ddcb3aefd3e7a0d96
+  getLabel2 :: GHC.Types.Double
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.D# 1.0##) -}
+0fb57465160eb32f14dc32b900fe83bd
+  getLabel3 :: ([a], [a])
+  {- Strictness: x -}
+4a7d65070afbb2fbb03372dd61d72194
+  getLabelTesting ::
+    Data.ByteString.Lazy.Internal.ByteString
+    -> GHC.Types.Int -> GHC.Types.Int
+  {- Arity: 2, Strictness: <S,1*U><S(S),1*U(U)>m, Inline: [0],
+     Unfolding: InlineRule (2, True, False)
+                (\ (w :: Data.ByteString.Lazy.Internal.ByteString)
+                   (w1 :: GHC.Types.Int) ->
+                 case w1 of ww { GHC.Types.I# ww1 ->
+                 let {
+                   ww2 :: GHC.Prim.Int# = GHC.Prim.+# ww1 8#
+                 } in
+                 case GHC.Prim.tagToEnum#
+                        @ GHC.Types.Bool
+                        (GHC.Prim.<# ww2 0#) of wild {
+                   GHC.Types.False
+                   -> case Data.ByteString.Lazy.$windex' w ww2 of ww3 { DEFAULT ->
+                      GHC.Types.I# (GHC.Prim.word2Int# ww3) }
+                   GHC.Types.True
+                   -> case Data.ByteString.Lazy.index1 ww2
+                      ret_ty GHC.Types.Int
+                      of {} } }) -}
+5c7336dae8821cb95c6f5f9462202d88
+  getLabels ::
+    Data.ByteString.Lazy.Internal.ByteString
+    -> GHC.Types.Int -> [[GHC.Types.Double]]
+  {- Arity: 2, Strictness: <L,U><S(S),1*U(U)>, Inline: [0],
+     Unfolding: InlineRule (2, True, False)
+                (\ (w :: Data.ByteString.Lazy.Internal.ByteString)
+                   (w1 :: GHC.Types.Int) ->
+                 case w1 of ww { GHC.Types.I# ww1 -> MNIST.$wgetLabels w ww1 }) -}
+b4a5a8a011fcffc34dfdd0a94978ab02
+  getLabelsTesting ::
+    Data.ByteString.Lazy.Internal.ByteString
+    -> GHC.Types.Int -> [GHC.Types.Int]
+  {- Arity: 2, Strictness: <L,U><S(S),1*U(U)>, Inline: [0],
+     Unfolding: InlineRule (2, True, False)
+                (\ (w :: Data.ByteString.Lazy.Internal.ByteString)
+                   (w1 :: GHC.Types.Int) ->
+                 case w1 of ww { GHC.Types.I# ww1 ->
+                 MNIST.$wgetLabelsTesting w ww1 }) -}
+79a63a57b90fd80f369c512de79f92b0
+  replaceAtIndex :: GHC.Types.Int -> a -> [a] -> [a]
+  {- Arity: 3, Strictness: <S(S),1*U(U)><L,U><S,1*U>, Inline: [0],
+     Unfolding: InlineRule (3, True, False)
+                (\ @ a (w :: GHC.Types.Int) (w1 :: a) (w2 :: [a]) ->
+                 case w of ww { GHC.Types.I# ww1 ->
+                 MNIST.$wreplaceAtIndex @ a ww1 w1 w2 }) -}
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: safe
+require own pkg trusted: False
+

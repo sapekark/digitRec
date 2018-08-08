@@ -1,5 +1,9 @@
 <!-- Adapted from: https://codepen.io/MaciejCaputa/pen/KXbJWR -->
 <!-- Original code by Maciej Caputa -->
+<!-- I have embedded style files into the html, and added functionalities needed for my application.
+      e.g buttons and the ability submit and clear digits, as well as presenting results. 
+     Javascript functions, related to processing, had to be embedded in the html for easy compatibility with scotty.-->
+
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -123,10 +127,10 @@
 <!--Web page functionality -->
 <script>
    /**
-   Code adapted from: https://codepen.io/MaciejCaputa/pen/KXbJWR
+   JavaScript code adapted from: https://codepen.io/MaciejCaputa/pen/KXbJWR
    Original code for processing the input by: Maciej Caputa
 
-   Functionality for clearing the input and jQuery were added by me.
+   Functionality for clearing the input, setting the background and jQuery were added by me.
  */
 
 /**
@@ -344,9 +348,9 @@ var Atrament = /** @class */ (function () {
         this.WEIGHT_SPREAD = 10;
         this._smoothing = this.SMOOTHING_INIT;
         this._maxWeight = 12;
-        this._thickness = 2;
-        this._targetThickness = 2;
-        this._weight = 2;
+        this._thickness = 10;
+        this._targetThickness = 10;
+        this._weight = 10;
         this._mode = 'draw';
         this._adaptive = true;
     }
@@ -678,7 +682,6 @@ var Atrament = /** @class */ (function () {
         console.log({ boundingRectangle: boundingRectangle });
         var array = pixels.reduce(function (arr, row) { return [].concat(arr, row.reduce(function (concatedRow, alpha) { return [].concat(concatedRow, [0, 0, 0, alpha * 255]); }, [])); }, []);
         var clampedArray = new Uint8ClampedArray(array);
-        // console.log(clampedArray.toString())
         var bounded = new ImageData(clampedArray, boundedCanvas.width, boundedCanvas.height);
         boundedCtx.putImageData(bounded, 0, 0);
         boundedCtx.beginPath();
@@ -694,66 +697,30 @@ var Atrament = /** @class */ (function () {
         // Yann LeCun's website)
         var brW = boundingRectangle.maxX + 1 - boundingRectangle.minX;
         var brH = boundingRectangle.maxY + 1 - boundingRectangle.minY;
-        // var scaling = (centeredCanvas.width / 2) / (brW > brH ? brW : brH);
-        // //     var img = centeredCtx.createImageData(100, 100);
-        // //     for (var i = img.data.length; --i >= 0; )
-        // //       img.data[i] = 0;
-        // //     centeredCtx.putImageData(img, 100, 100);
-        // //     centeredCtx.setTransform(1, 0, 0, 1, 0, 0);
-        //   // scale
-        //   // centeredCtx.translate(centeredCanvas.width / 2, centeredCanvas.height/ 2);
-        //   // centeredCtx.scale(scaling, scaling);
-        //   // centeredCtx.translate(-centeredCanvas.width/2, -centeredCanvas.height/2);
-        //   // translate to center of mass
-        //   centeredCtx.translate(trans.transX, trans.transY);
-        //   centeredCtx.clearRect(0, 0, centeredCanvas.width, centeredCanvas.height);
-        //   centeredCtx.drawImage(originalCtx.canvas, 0, 0);
-        //   // scaledCtx.clearRect(0, 0, scaledCanvas.width, scaledCanvas.height);
-        //   // scaledCtx.drawImage(centeredCtx.canvas, 0, 0);
         // Get width and height of the bounding box of the segmented digit.
         var brW = boundingRectangle.maxX + 1 - boundingRectangle.minX;
         var brH = boundingRectangle.maxY + 1 - boundingRectangle.minY;
         // Set the scaling factor in a way that will uniformy decarease width and height of bounding box so that it fits 20x20pixel window
         var scalingFactor = 20 / Math.max(brW, brH);
-        // var scaling = (centeredCanvas.width / 2) / (brW > brH ? brW : brH);
-        // const scaleX = 20 /brW;
-        // const scaleY= 20 / brH;
-        // // scaledCtx.translate(scaledCtx.width / 2, scaledCtx.height / 2);
-        // scaledCtx.scale(scaleX, scaleY);
-        // // scaledCtx.translate(-scaledCtx.width/2, -scaledCtx.height /2);
-        // scaledCtx.clearRect(0, 0, scaledCtx.width, scaledCtx.height);
-        // scaledCtx.drawImage(originalCtx.canvas, 0, 0);
+        // Clear the canvas.
+        mnistCtx.clearRect(0, 0, mnistCanvas.width, mnistCanvas.height);
         // Reset the drawing.
         var img = mnistCtx.createImageData(100, 100);
-        for (var i = img.data.length; --i >= 0;)
-            img.data[i] = 0;
+        for (var i = img.data.length; --i >= 0; )
+        img.data[i] = 0;
         mnistCtx.putImageData(img, 100, 100);
         // Reset the tranforms
         mnistCtx.setTransform(1, 0, 0, 1, 0, 0);
-        // Clear the canvas.
-        mnistCtx.clearRect(0, 0, mnistCanvas.width, mnistCanvas.height);
+        // Set canvas background to white.
+        mnistCtx.fillStyle="white";
+        mnistCtx.fillRect(0,0, mnistCanvas.width, mnistCanvas.height);
         // Ensure that 20x20 square that bound the digit is centered on 28x28 canvas.
-        // mnistCtx.translate(4, 4);
-        /**
-         * This is just for demo and should be removed.
-         * Drawing centered 20x20 rectrangle centerad at 28x28 canvas.
-         */
-        mnistCtx.beginPath();
-        mnistCtx.lineWidth = '1';
-        mnistCtx.strokeStyle = 'white';
-        mnistCtx.rect(4, 4, 20, 20);
-        mnistCtx.stroke();
-        // mnistCtx.scale(scalingFactor, scalingFactor);
         mnistCtx.translate(-brW * scalingFactor / 2, -brH * scalingFactor / 2);
         mnistCtx.translate(mnistCtx.canvas.width / 2, mnistCtx.canvas.height / 2);
         mnistCtx.translate(-Math.min(boundingRectangle.minX, boundingRectangle.maxX) * scalingFactor, -Math.min(boundingRectangle.minY, boundingRectangle.maxY) * scalingFactor);
         mnistCtx.scale(scalingFactor, scalingFactor);
-        // mnistCtx.translate(scaledCtx.width / 2, scaledCtx.height / 2);
-        // mnistCtx.scale(scaleX, scaleY);
-        // mnistCtx.translate(-scaledCtx.width/2, -scaledCtx.height /2);
-        // mnistCtx.clearRect(0, 0, 28, 28);
+        // Draw.
         mnistCtx.drawImage(originalCtx.canvas, 0, 0);
-        // mnistCtx.rect(0, 0, 20, 20); 
     };
     // Function takes grayscale image and finds bounding rectangle of digit defined by corresponding treshold.
     Atrament.prototype.getBoundingRectangle = function (img, threshold) {
@@ -788,7 +755,6 @@ var Atrament = /** @class */ (function () {
         var meanX = 0, meanY = 0, rows = img.length, columns = img[0].length, pixel = 0, sumPixels = 0, y = 0, x = 0;
         for (y = 0; y < rows; y++) {
             for (x = 0; x < columns; x++) {
-                // pixel = (1 - img[y][x]);
                 pixel = img[y][x];
                 sumPixels += pixel;
                 meanY += y * pixel;
@@ -815,14 +781,11 @@ function erase() {
 $("#submit").click( function()
            {
             var submission = document.getElementById("mnist");
-            var subData = submission.toDataURL()
+            var subData = submission.toDataURL("image/png")
             $.ajax({
                     type: 'post',
                     url: '/',
-                    data: {
-                        imageBase64 : subData
-                    },
-                
+                    data: subData ,              
                     success: function(data){
                       var canvas = document.getElementById("result");
                       var ctx = canvas.getContext("2d");

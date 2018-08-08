@@ -3,11 +3,11 @@ version:             0.1.0.0
 -- synopsis:
 -- description:
 homepage:            https://github.com/githubuser/digitRec#readme
-license:             BSD3
+license:             MIT
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2018 Author name here
+author:              Saku Kärkkäinen
+maintainer:          sapekark@student.jyu.fi
+copyright:           2018 Saku Kärkkäinen
 category:            Web
 build-type:          Simple
 cabal-version:       >=1.10
@@ -17,4 +17,4 @@ executable digitRec
   hs-source-dirs:      src
   main-is:             Main.hs
   default-language:    Haskell2010
-  build-depends:       base >=4.7 && <5, bytestring, random, random-shuffle, scotty
+  build-depends:       base >=4.7 && <5, bytestring, base64-bytestring, random, random-shuffle, scotty, JuicyPixels, JuicyPixels-repa, vector, text

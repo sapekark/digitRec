@@ -33,6 +33,17 @@
   (major1) == 0 && (major2) == 10 && (minor) <= 8)
 #endif /* MIN_VERSION_bytestring */
 
+/* package base64-bytestring-1.0.0.1 */
+#ifndef VERSION_base64_bytestring
+#define VERSION_base64_bytestring "1.0.0.1"
+#endif /* VERSION_base64_bytestring */
+#ifndef MIN_VERSION_base64_bytestring
+#define MIN_VERSION_base64_bytestring(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  0 || \
+  (major1) == 1 && (major2) == 0 && (minor) <= 0)
+#endif /* MIN_VERSION_base64_bytestring */
+
 /* package random-1.1 */
 #ifndef VERSION_random
 #define VERSION_random "1.1"
@@ -65,6 +76,50 @@
   (major1) == 0 && (major2) <  11 || \
   (major1) == 0 && (major2) == 11 && (minor) <= 1)
 #endif /* MIN_VERSION_scotty */
+
+/* package JuicyPixels-3.2.9.5 */
+#ifndef VERSION_JuicyPixels
+#define VERSION_JuicyPixels "3.2.9.5"
+#endif /* VERSION_JuicyPixels */
+#ifndef MIN_VERSION_JuicyPixels
+#define MIN_VERSION_JuicyPixels(major1,major2,minor) (\
+  (major1) <  3 || \
+  (major1) == 3 && (major2) <  2 || \
+  (major1) == 3 && (major2) == 2 && (minor) <= 9)
+#endif /* MIN_VERSION_JuicyPixels */
+
+/* package JuicyPixels-repa-0.7.1.0 */
+#ifndef VERSION_JuicyPixels_repa
+#define VERSION_JuicyPixels_repa "0.7.1.0"
+#endif /* VERSION_JuicyPixels_repa */
+#ifndef MIN_VERSION_JuicyPixels_repa
+#define MIN_VERSION_JuicyPixels_repa(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  7 || \
+  (major1) == 0 && (major2) == 7 && (minor) <= 1)
+#endif /* MIN_VERSION_JuicyPixels_repa */
+
+/* package vector-0.12.0.1 */
+#ifndef VERSION_vector
+#define VERSION_vector "0.12.0.1"
+#endif /* VERSION_vector */
+#ifndef MIN_VERSION_vector
+#define MIN_VERSION_vector(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  12 || \
+  (major1) == 0 && (major2) == 12 && (minor) <= 0)
+#endif /* MIN_VERSION_vector */
+
+/* package text-1.2.3.0 */
+#ifndef VERSION_text
+#define VERSION_text "1.2.3.0"
+#endif /* VERSION_text */
+#ifndef MIN_VERSION_text
+#define MIN_VERSION_text(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  2 || \
+  (major1) == 1 && (major2) == 2 && (minor) <= 3)
+#endif /* MIN_VERSION_text */
 
 /* tool gcc-6.2.0 */
 #ifndef TOOL_VERSION_gcc
@@ -155,7 +210,7 @@
 #endif /* MIN_TOOL_VERSION_strip */
 
 #ifndef CURRENT_COMPONENT_ID
-#define CURRENT_COMPONENT_ID "digitRec-0.1.0.0-F1EHZ7nK2E8BmDXJLjiN4K-digitRec"
+#define CURRENT_COMPONENT_ID "digitRec-0.1.0.0-KIUGafAaQdN9vU4iORD3Fv-digitRec"
 #endif /* CURRENT_COMPONENT_ID */
 #ifndef CURRENT_PACKAGE_VERSION
 #define CURRENT_PACKAGE_VERSION "0.1.0.0"

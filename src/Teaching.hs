@@ -20,6 +20,7 @@ module Teaching where
 import NeuralNetwork
 import Training 
 import MNIST
+
         
 import qualified Data.ByteString.Lazy as BS
 import Data.List
@@ -35,7 +36,7 @@ testLabPath = "Data\\t10k-labels.idx1-ubyte"
         
 saveNetPath = "Data\\solutionNet.txt"
         
-digitsToBeTrained = 10000
+digitsToBeTrained = 60000
 
 digitsToBeTested = 10000
         
@@ -59,7 +60,7 @@ reLuAcF = ActivationFunction {acFunc = reLu, acFunc' = reLu', description = "Rec
 teach :: IO ()
 teach = do
         let n = digitsToBeTrained - 1 -- Because indexing starts from zero, we have to take the - 1.
-        net <- newNNet [(28*28),300,10]
+        net <- newNNet [(28*28),100,10]
         let af = reLuAcF
         dig0 <- BS.readFile digPath
         lab0 <- BS.readFile labPath       

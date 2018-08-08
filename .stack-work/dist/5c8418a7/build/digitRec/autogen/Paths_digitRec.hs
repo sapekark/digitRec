@@ -30,7 +30,7 @@ version = Version [0,1,0,0] []
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
 
 bindir     = "C:\\dev\\Projects\\Haskell\\digitRec\\digitRec\\.stack-work\\install\\69d820b8\\bin"
-libdir     = "C:\\dev\\Projects\\Haskell\\digitRec\\digitRec\\.stack-work\\install\\69d820b8\\lib\\x86_64-windows-ghc-8.2.2\\digitRec-0.1.0.0-F1EHZ7nK2E8BmDXJLjiN4K-digitRec"
+libdir     = "C:\\dev\\Projects\\Haskell\\digitRec\\digitRec\\.stack-work\\install\\69d820b8\\lib\\x86_64-windows-ghc-8.2.2\\digitRec-0.1.0.0-KIUGafAaQdN9vU4iORD3Fv-digitRec"
 dynlibdir  = "C:\\dev\\Projects\\Haskell\\digitRec\\digitRec\\.stack-work\\install\\69d820b8\\lib\\x86_64-windows-ghc-8.2.2"
 datadir    = "C:\\dev\\Projects\\Haskell\\digitRec\\digitRec\\.stack-work\\install\\69d820b8\\share\\x86_64-windows-ghc-8.2.2\\digitRec-0.1.0.0"
 libexecdir = "C:\\dev\\Projects\\Haskell\\digitRec\\digitRec\\.stack-work\\install\\69d820b8\\libexec\\x86_64-windows-ghc-8.2.2\\digitRec-0.1.0.0"
