@@ -2,7 +2,8 @@
 
 Digit reconiser is a web application, which allows the user to input a handwritten digit to for a neural network to classify.
 
-#Instructions 
+## Instructions 
+
 (NOTE: The following instructions are designed and guaranteed for Windows computers, although with a little adapting, you should be able to follow them on other operating systems, too.)
 
 Using the program is simple. 
