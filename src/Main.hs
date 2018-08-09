@@ -1,3 +1,21 @@
+{- |
+Module      :   Main
+Description :   Web-application which allows users to input handwritten digits to a neural network.
+Copyright   :   (c) Saku Kärkkäinen
+License     :   MIT
+
+Maintainer  :   sapekark@student.jyu.fi
+Stability   :   experimental
+Portability :   ghc
+               
+                Date: 9.8.2018
+                This module handles everything related to initializing and running the web application, including the processing of user inputted digits.
+
+                Scotty has been chosen to be used as the web framework for this project. As you can see from the code, serving 
+                GET- and POST-requests is very easy with scotty.
+                
+                For image processing, I am using the JuicyPixels library.
+-}
 {-# LANGUAGE OverloadedStrings #-}
 
 module Main where
@@ -14,17 +32,16 @@ import Data.Word
 import Web.Scotty
 
 import qualified Teaching as T
-import qualified SampleSolution as S
 import qualified NeuralNetwork as NN
-
-
 
 htmlPath = "web\\index.html"
 picPath = "data\\digit.png"
 
--- Main function, which initializes to web application to localhost:3000/
+defaultPath = "Data\\defaultNet.txt"
+
+-- Main function, which initializes the web application to localhost:3000/
 main = scotty 3000 $
-    digitRec
+        digitRec
 
 -- a scotty monad, which houses the application.
 digitRec :: ScottyM ()
@@ -43,6 +60,7 @@ guess :: ActionM ()
 guess = do
         liftIO $ print "I'm about to serve a request!"
         b <- body
+        net <-  liftIO $  NN.readFromFile defaultPath -- Loads the default network from file.
         let drpd = BSL.drop 22 b -- Drop needless prefix created by "dataToUrl". (html)
         let bs = B64.decodeLenient(drpd) -- Decodes Base64 encoding.
         let strict = BSL.toStrict bs          
@@ -52,9 +70,7 @@ guess = do
         let inverted = invertValues asInts
         let input = makeGreyScale inverted
         let normalizedInput = map (/255.0) input -- Normalizes the input values to range from 0 to 1.
-        let result = T.classify S.sampleNet normalizedInput T.reLuAcF
-        let run = NN.runNNet normalizedInput S.sampleNet T.reLuAcF
-        liftIO $ print (show run)
+        let result = T.classify net normalizedInput T.reLuAcF
         liftIO $ print ("User inputted digit classified as a " ++ (show result))
         text $ TX.pack (show result)
 

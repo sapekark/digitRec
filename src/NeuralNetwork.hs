@@ -7,7 +7,8 @@ License     :   MIT
 Maintainer  :   sapekark@student.jyu.fi
 Stability   :   experimental
 Portability :   ghc
-
+               
+                Date: 9.8.2018
                 This module handles everything related to assembling a neural network and propagating through it.
 
                 Guidance and inspiration for the implementation of this module has been drawn from the tutorial "Get a brain".
@@ -20,7 +21,6 @@ import Data.Functor
 import Data.List
 import System.Random
 import Control.Monad
-        
         
 type Bias = [Double]
 type Weights = [[Double]]
@@ -67,4 +67,11 @@ bmt :: Double -> IO Double
 bmt dev = do
         x <- randomIO
         y <- randomIO 
-        return $ dev * sqrt (-2 * log x) * cos (2 * pi * y)       
+        return $ dev * sqrt (-2 * log x) * cos (2 * pi * y)
+
+-- Function, which loads the network defined by the path from a .txt file.
+readFromFile :: FilePath -> IO NeuralNet
+readFromFile path = do 
+        sol <- readFile path
+        let net = read sol 
+        return net

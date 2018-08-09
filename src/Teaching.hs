@@ -8,6 +8,7 @@ Maintainer  :   sapekark@student.jyu.fi
 Stability   :   experimental
 Portability :   ghc              
 
+                Date: 9.8.2018
                 This module handles everything related to teaching the system to classify MNIST-data correctly.
                 
                 To teach a new network simply type "teach" into ghci. A network will be taught with the full dataset
@@ -60,7 +61,7 @@ reLuAcF = ActivationFunction {acFunc = reLu, acFunc' = reLu', description = "Rec
 teach :: IO ()
 teach = do
         let n = digitsToBeTrained - 1 -- Because indexing starts from zero, we have to take the - 1.
-        net <- newNNet [(28*28),100,10]
+        net <- newNNet [(28*28),40,10]
         let af = reLuAcF
         dig0 <- BS.readFile digPath
         lab0 <- BS.readFile labPath       

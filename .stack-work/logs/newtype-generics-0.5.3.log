@@ -1,7 +1,0 @@
-Configuring newtype-generics-0.5.3...
-Preprocessing library for newtype-generics-0.5.3..
-Building library for newtype-generics-0.5.3..
-[1 of 2] Compiling Control.Newtype.Generics ( Control\Newtype\Generics.hs, .stack-work\dist\5c8418a7\build\Control\Newtype\Generics.o )
-[2 of 2] Compiling Control.Newtype  ( Control\Newtype.hs, .stack-work\dist\5c8418a7\build\Control\Newtype.o )
-Installing library in C:\sr\snapshots\b40ca3f8\lib\x86_64-windows-ghc-8.2.2\newtype-generics-0.5.3-1hpuC6C61Lg5FB4JyxCn3e
-Registering library for newtype-generics-0.5.3..

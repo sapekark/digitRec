@@ -1,8 +1,11 @@
-<!-- Adapted from: https://codepen.io/MaciejCaputa/pen/KXbJWR -->
-<!-- Original code by Maciej Caputa -->
-<!-- I have embedded style files into the html, and added functionalities needed for my application.
-      e.g buttons and the ability submit and clear digits, as well as presenting results. 
-     Javascript functions, related to processing, had to be embedded in the html for easy compatibility with scotty.-->
+<!-- Date 9.8.2018
+    
+    Adapted from: https://codepen.io/MaciejCaputa/pen/KXbJWR
+    Original code by Maciej Caputa 
+    
+    I have embedded style files into the html, and added functionalities needed for my application.
+    e.g buttons and the ability submit and clear digits, as well as presenting results. 
+    Javascript functions, related to processing, had to be embedded in the html for easy compatibility with scotty.-->
 
 <!DOCTYPE html>
 <html lang="en" >
@@ -90,7 +93,7 @@
 
   
 <h1>Digit recogniser</h1>
-<p>Draw a digit from 0 - 9 into the leftmost box.<br>A neural network will attempt to classify your digit.</p>
+<p>Draw a digit from 0 - 9 into the leftmost box and click "submit".<br>A neural network will attempt to classify your digit.</p>
 <div class="items">
   <div class="items__item">
     <canvas id="original" width="100px" height="200px"></canvas>
@@ -115,10 +118,10 @@
 
 <div class="buttons">
   <div class="buttons__submit">
-    <input type="button" value="submit" id="submit" size="23">
+    <input type="button" value="Submit" id="submit" size="23">
   </div>
   <div class="buttons__clear">
-    <input type="button" value="clear" id="clr" size="23" onclick="erase()">
+    <input type="button" value="Clear" id="clr" size="23" onclick="erase()">
   </div>
 </div>
 <!-- Scripts -->
@@ -348,9 +351,9 @@ var Atrament = /** @class */ (function () {
         this.WEIGHT_SPREAD = 10;
         this._smoothing = this.SMOOTHING_INIT;
         this._maxWeight = 12;
-        this._thickness = 10;
-        this._targetThickness = 10;
-        this._weight = 10;
+        this._thickness = 6;
+        this._targetThickness = 6;
+        this._weight = 6;
         this._mode = 'draw';
         this._adaptive = true;
     }
@@ -441,14 +444,6 @@ var Atrament = /** @class */ (function () {
         mouse.py = mouse.y;
     };
     Object.defineProperty(Atrament.prototype, "weight", {
-        //   get color() {
-        //     return this.context.strokeStyle;
-        //   }
-        //   set color(c) {
-        //     // Changes color of a strok.
-        //     if (typeof c !== 'string') throw new Error('wrong argument type');
-        //     this.context.strokeStyle = c;
-        //   }
         get: function () {
             return this._weight;
         },
@@ -649,20 +644,17 @@ var Atrament = /** @class */ (function () {
     Atrament.prototype.scaleDown = function () {
         var originalCanvas = document.getElementById('original');
         var boundedCanvas = document.getElementById('bounded');
-        // const centeredCanvas = document.getElementById('centered');
-        // const scaledCanvas = document.getElementById('scaled');
         var mnistCanvas = document.getElementById('mnist');
+
         var originalCtx = originalCanvas.getContext('2d');
         var boundedCtx = boundedCanvas.getContext('2d');
-        // const centeredCtx = centeredCanvas.getContext('2d');
-        // const scaledCtx = scaledCanvas.getContext('2d');
         var mnistCtx = mnistCanvas.getContext('2d');
-        // originalCanvas.width = boundedCanvas.width = centeredCanvas.width = scaledCanvas.width = 100;
-        // originalCanvas.height = boundedCanvas.height = centeredCanvas.height = scaledCanvas.height = 100;
+
         var imgData = originalCtx.getImageData(0, 0, originalCanvas.width, originalCanvas.height);
         var data = imgData.data;
         var pixels = [[]];
         console.log(pixels);
+
         var row = 0;
         var column = 0;
         for (var i_1 = 0; i_1 < originalCanvas.width * originalCanvas.height * 4; i_1 += 4) {
@@ -683,12 +675,14 @@ var Atrament = /** @class */ (function () {
         var array = pixels.reduce(function (arr, row) { return [].concat(arr, row.reduce(function (concatedRow, alpha) { return [].concat(concatedRow, [0, 0, 0, alpha * 255]); }, [])); }, []);
         var clampedArray = new Uint8ClampedArray(array);
         var bounded = new ImageData(clampedArray, boundedCanvas.width, boundedCanvas.height);
+       
         boundedCtx.putImageData(bounded, 0, 0);
         boundedCtx.beginPath();
         boundedCtx.lineWidth = '1';
         boundedCtx.strokeStyle = 'red';
         boundedCtx.rect(boundingRectangle.minX, boundingRectangle.minY, Math.abs(boundingRectangle.minX - boundingRectangle.maxX), Math.abs(boundingRectangle.minY - boundingRectangle.maxY));
         boundedCtx.stroke();
+       
         // Vector that shifts an image to the center of the mass.
         var trans = this.centerImage(pixels); // [dX, dY] to center of mass
         console.log({ trans: trans });

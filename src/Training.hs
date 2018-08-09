@@ -8,6 +8,7 @@ Maintainer  :   sapekark@student.jyu.fi
 Stability   :   experimental
 Portability :   ghc
 
+                Date: 9.8.2018
                 This module handles everything related to training the network through backpropagation.
 
                 Guidance and inspiration for the implementation of this module has been drawn from the tutorial "Get a brain".

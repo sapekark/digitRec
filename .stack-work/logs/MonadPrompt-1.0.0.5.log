@@ -1,6 +1,0 @@
-Configuring MonadPrompt-1.0.0.5...
-Preprocessing library for MonadPrompt-1.0.0.5..
-Building library for MonadPrompt-1.0.0.5..
-[1 of 1] Compiling Control.Monad.Prompt ( Control\Monad\Prompt.hs, .stack-work\dist\5c8418a7\build\Control\Monad\Prompt.o )
-Installing library in C:\sr\snapshots\b40ca3f8\lib\x86_64-windows-ghc-8.2.2\MonadPrompt-1.0.0.5-CzhXuqwnSyt8FMVt4Y4aVT
-Registering library for MonadPrompt-1.0.0.5..

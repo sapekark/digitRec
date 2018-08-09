@@ -8,11 +8,12 @@ Maintainer  :   sapekark@student.jyu.fi
 Stability   :   experimental
 Portability :   ghc              
 
+                Date: 9.8.2018
                 This module contains a functions for decoding MNIST data from IDX-files.
+                
                 There are distinct functions for training data and testing data.
                 (Functions for training return labels as expected output vectors,
                  Functions for testing return labels as integers, describing the digit it is labeling.)
-
 -}
 
 module MNIST where

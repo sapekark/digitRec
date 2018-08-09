@@ -1,6 +1,6 @@
 name:                digitRec
-version:             0.1.0.0
--- synopsis:
+version:             1.0.0.0
+-- synopsis:         A web application for classifying user inputted, handwritten digits using a neural network.
 -- description:
 homepage:            https://github.com/githubuser/digitRec#readme
 license:             MIT
@@ -18,3 +18,4 @@ executable digitRec
   main-is:             Main.hs
   default-language:    Haskell2010
   build-depends:       base >=4.7 && <5, bytestring, base64-bytestring, random, random-shuffle, scotty, JuicyPixels, JuicyPixels-repa, vector, text
+  Other-Modules:       MNIST, NeuralNetwork, Teaching, Training

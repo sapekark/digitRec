@@ -1,6 +1,0 @@
-Configuring monad-loops-0.4.3...
-Preprocessing library for monad-loops-0.4.3..
-Building library for monad-loops-0.4.3..
-[1 of 1] Compiling Control.Monad.Loops ( src\Control\Monad\Loops.hs, .stack-work\dist\5c8418a7\build\Control\Monad\Loops.o )
-Installing library in C:\sr\snapshots\b40ca3f8\lib\x86_64-windows-ghc-8.2.2\monad-loops-0.4.3-Ad5oA5oDZiu5B1obbGSEb1
-Registering library for monad-loops-0.4.3..

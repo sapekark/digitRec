@@ -1,6 +1,0 @@
-Configuring StateVar-1.1.1.0...
-Preprocessing library for StateVar-1.1.1.0..
-Building library for StateVar-1.1.1.0..
-[1 of 1] Compiling Data.StateVar    ( src\Data\StateVar.hs, .stack-work\dist\5c8418a7\build\Data\StateVar.o )
-Installing library in C:\sr\snapshots\b40ca3f8\lib\x86_64-windows-ghc-8.2.2\StateVar-1.1.1.0-7hicwZfZdWh9t78q7QM8bm
-Registering library for StateVar-1.1.1.0..
