@@ -25,8 +25,10 @@ The program is now starting. To initialize the web page for the application, typ
 
 * main 
 
-The page has now been initialized. Now, open your browser and type the following into the address bar.
+You should see the following text: "Setting phasers to stun... (port 3000) (ctrl-c to quit)"
+This means, that the page has now been initialized. Now, open your browser and type the following into the address bar.
 
 * localhost:3000/
 
 Further instructions on how to start using the program are presented on the web page.
+After you are done, close the program in command prompt by pressing ctrl-c twice.
